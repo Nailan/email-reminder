@@ -47,7 +47,9 @@
   				<td>{{nextRun}}</td>
   				<td> 
   					<button class="action-btn remove-btn"> Remove </button> 
-  					<button class="action-btn disable-btn"> Disable </button> 
+  					<button class="action-btn disable-btn"> 
+  						{{#if active}} Disable {{else}} Enable {{/if}} 
+  					</button> 
   				</td>
   			</tr>
   		{{/each}}
