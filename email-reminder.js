@@ -53,20 +53,32 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+
+    process.env.MAIL_URL = Meteor.settings.GMAIL_URL;
+
     SyncedCron.add({
       name: 'Send email scheduled task',
       schedule: function(parser) {
-      return parser.text('every 10 seconds');
+        return parser.text('every 10 minutes');
       },
       job: function() {
-        console.log("Running!!!");
-        Meteor.call('sendEmail', 'p.demeshchik@datarockets.com', 'p.demeshchik@datarockets.com', 'test meteor', 'testing');
+        Meteor.call('processReminders');
       }
     });
     SyncedCron.start();
+
   });
 
   Meteor.methods({
+
+    processReminders: function() {
+      var activeReminders = Reminders.find({active: true});
+      for (var i = 0; i < activeReminders.length; i ++) {
+        var reminder= activeReminders[i];
+        // TODO: send emails
+      }
+    },
+
     sendEmail: function (to, from, subject, text) {
       check([to, from, subject, text], [String]);
 
