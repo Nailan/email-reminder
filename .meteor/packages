@@ -6,6 +6,5 @@
 
 meteor-platform
 autopublish
-insecure
 percolate:synced-cron
 email
