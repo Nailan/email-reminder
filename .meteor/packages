@@ -8,3 +8,4 @@ meteor-platform
 autopublish
 percolate:synced-cron
 email
+iron:router
