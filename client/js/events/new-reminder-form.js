@@ -8,7 +8,7 @@ Template.newReminderForm.events({
     var startDate = event.target.startDate.value;
     var periodicity = event.target.periodicity.value;
 
-    Reminders.insert({
+    Meteor.call('addReminder', {
       active: active,
       name: name, 
       email: email, 

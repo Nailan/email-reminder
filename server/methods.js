@@ -21,5 +21,25 @@ Meteor.methods({
       subject: subject,
       text: text
     });
+  },
+
+  addReminder: function(reminder) {
+    Reminders.insert({
+      active: reminder.active,
+      name: reminder.name, 
+      email: reminder.email, 
+      to: reminder.to, 
+      startTime: reminder.startTime, 
+      startDate: reminder.startDate, 
+      periodicity: reminder.periodicity
+    });
+  },
+
+  deleteReminder: function(reminderId) {
+    Reminders.remove(reminderId);
+  },
+
+  switchReminderActivity: function(reminderId, isActive) {
+    Reminders.update(reminderId, {$set: {active: !isActive}});
   }
 });

@@ -4,11 +4,11 @@ Template.reminderList.events({
   },
 
   'click .remove-btn': function () {
-    Reminders.remove(this._id);
+  	Meteor.call('deleteReminder', this._id);
   },
 
   'click .disable-btn': function () {
-    Reminders.update(this._id, {$set: {active: !this.active}});
+    Meteor.call('switchReminderActivity', this._id, this.active);
   }
 
 
