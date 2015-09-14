@@ -1,11 +1,12 @@
 Meteor.methods({
 
   processReminders: function() {
-    var activeReminders = Reminders.find({active: true});
+    var activeReminders = Reminders.find({active: true}).fetch();
+    var emailIds = [];
     for (var i = 0; i < activeReminders.length; i ++) {
-      var reminder= activeReminders[i];
-      // TODO: send emails
+      emailIds.push(activeReminders[i].email);
     }
+    var emails = Emails.find({'_id': {$in: emailIds}}).fetch();
   },
 
   sendEmail: function (to, from, subject, text) {
@@ -41,5 +42,17 @@ Meteor.methods({
 
   switchReminderActivity: function(reminderId, isActive) {
     Reminders.update(reminderId, {$set: {active: !isActive}});
+  },
+
+  addEmail: function(email) {
+    Emails.insert({
+      name: email.name,
+      subject: email.subject,
+      body: email.body
+    });
+  },
+
+  deleteEmail: function(emailId) {
+    Emails.remove(emailId);
   }
 });

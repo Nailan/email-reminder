@@ -1,0 +1,15 @@
+<template name="emailList">
+	<table class="emails-table">
+  		<th>Name</th>
+  		<th>Actions</th>
+  		{{#each emails}}
+  			<tr>
+  				<td>{{name}}</td>
+  				<td> 
+  					<button class="action-btn remove-btn"> Remove </button> 
+  				</td>
+  			</tr>
+  		{{/each}}
+  	</table>
+  	<button class="add-email-btn">Add Email</button>
+</template>

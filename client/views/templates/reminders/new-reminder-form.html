@@ -9,7 +9,9 @@
 		<div class="new-reminder-form-item"> 
 			<label>Email</label> 
 			<select name="email" required class="new-reminder-form-input">
-				<option>Test email text</option> 
+				{{#each emailOptions}}
+					<option value="{{value}}">{{name}}</option>>
+				{{/each}} 
 			</select> 
 		</div>
 		<div class="new-reminder-form-item"> 
