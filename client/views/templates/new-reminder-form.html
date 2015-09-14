@@ -1,0 +1,34 @@
+<template name="newReminderForm">
+	<form class="new-reminder-form" style="display: none">
+		<div class="new-reminder-form-item"> 
+			<label>Active</label> <input type="checkbox" name="active" class="new-reminder-form-input"/> 
+		</div>
+		<div class="new-reminder-form-item"> 
+			<label>Name</label> <input type="text" name="name" required class="new-reminder-form-input"/> 
+		</div>
+		<div class="new-reminder-form-item"> 
+			<label>Email</label> 
+			<select name="email" required class="new-reminder-form-input">
+				<option>Test email text</option> 
+			</select> 
+		</div>
+		<div class="new-reminder-form-item"> 
+			<label>To</label> <input type="email" name="to" required class="new-reminder-form-input"/> 
+		</div>
+		<div class="new-reminder-form-item"> 
+			<label>Start time</label> 
+			<input type="time" name="startTime" required class="new-reminder-form-input"/> 
+			<input type="date" name="startDate" required class="new-reminder-form-input"/>
+		</div>
+		<div class="new-reminder-form-item"> 
+			<label>Periodicity</label> 
+			<select name="periodicity" required class="new-reminder-form-input">
+				<option value="daily">Daily</option>
+				<option value="weekly">Weekly</option>
+				<option value="monthly">Monthly</option>
+			</select>
+		</div>
+
+		<input type="submit" value="Save" class="new-reminder-save-btn"/>
+	</form>
+</template>

@@ -1,0 +1,30 @@
+<template name="reminderList">
+	<table class="reminders-table">
+  		<th>Active</th>
+  		<th>Name</th>
+  		<th>Email</th>
+  		<th>To</th>
+  		<th>Start Time</th>
+  		<th>Periodicy</th>
+  		<th>Next Run</th>
+  		<th>Actions</th>
+  		{{#each reminders}}
+  			<tr>
+  				<td> <input type="checkbox" checked={{active}} disabled="disabled" /></td>
+  				<td>{{name}}</td>
+  				<td>{{email}}</td>
+  				<td>{{to}}</td>
+  				<td>{{startTime}} {{startDate}}</td>
+  				<td>{{periodicity}}</td>
+  				<td>{{nextRun}}</td>
+  				<td> 
+  					<button class="action-btn remove-btn"> Remove </button> 
+  					<button class="action-btn disable-btn"> 
+  						{{#if active}} Disable {{else}} Enable {{/if}} 
+  					</button> 
+  				</td>
+  			</tr>
+  		{{/each}}
+  	</table>
+  	<button class="add-reminder-btn">Add Reminder</button>
+</template>
