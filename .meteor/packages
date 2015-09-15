@@ -9,3 +9,4 @@ autopublish
 percolate:synced-cron
 email
 iron:router
+momentjs:moment

@@ -1,16 +1,26 @@
 Meteor.startup(function () {
 
-  process.env.MAIL_URL = Meteor.settings.GMAIL_URL;
+  process.env.MAIL_URL = Meteor.settings.gmailUrl;
 
   SyncedCron.add({
-    name: 'Send email scheduled task',
+    name: 'Send email task',
     schedule: function(parser) {
-      return parser.text('every 10 minutes');
+      return parser.text(Meteor.settings.sendEmailTimeout);
+    },
+    job: function() {
+      Meteor.call('sendReminderEmails');
+    }
+  },
+  {
+    name: 'Process reminder next run task',
+    schedule: function(parser) {
+      return parser.text(Meteor.settings.processRemindersTimeout);
     },
     job: function() {
       Meteor.call('processReminders');
     }
-  });
+  }
+  );
   SyncedCron.start();
 
 });

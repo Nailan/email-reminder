@@ -6,5 +6,15 @@ Template.newReminderForm.helpers({
 			options.push({name: emails[i].name, value: emails[i]._id});
 		}
 		return options;
+	},
+
+	periodicityOptions: function() {
+		var options = [];
+		for (var property in Constants.Periodicity) {
+		    if (Constants.Periodicity.hasOwnProperty(property)) {
+		        options.push({name: property, value: Constants.Periodicity[property]});
+		    }
+		}
+		return options;
 	}
 });

@@ -7,6 +7,22 @@ Meteor.methods({
       emailIds.push(activeReminders[i].email);
     }
     var emails = Emails.find({'_id': {$in: emailIds}}).fetch();
+    for (var i = 0; i < activeReminders.length; i ++) {
+      var reminder = activeReminders[i];
+      if (reminder.periodicity == Constants.PERIODICITY.DAILY) {
+        
+      }
+      if (reminder.periodicity == Constants.PERIODICITY.WEEKLY) {
+        
+      }
+      if (reminder.periodicity == Constants.PERIODICITY.MONTHLY) {
+        
+      }
+    }
+  },
+
+  sendReminderEmails: function() {
+    var activeReminders = Reminders.find({active: true, executed: false}).fetch();
   },
 
   sendEmail: function (to, from, subject, text) {
@@ -30,9 +46,9 @@ Meteor.methods({
       name: reminder.name, 
       email: reminder.email, 
       to: reminder.to, 
-      startTime: reminder.startTime, 
-      startDate: reminder.startDate, 
-      periodicity: reminder.periodicity
+      startDateTime: moment(reminder.startDate + 'T' + reminder.startTime).toDate(), 
+      periodicity: reminder.periodicity,
+      executed: false,
     });
   },
 
