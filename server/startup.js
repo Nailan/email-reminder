@@ -10,8 +10,9 @@ Meteor.startup(function () {
     job: function() {
       Meteor.call('sendReminderEmails');
     }
-  },
-  {
+  }
+  );
+  SyncedCron.add({
     name: 'Process reminder next run task',
     schedule: function(parser) {
       return parser.text(Meteor.settings.processRemindersTimeout);
@@ -19,8 +20,7 @@ Meteor.startup(function () {
     job: function() {
       Meteor.call('processReminders');
     }
-  }
-  );
+  });
   SyncedCron.start();
 
 });

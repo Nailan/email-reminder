@@ -1,28 +1,34 @@
 Meteor.methods({
 
   processReminders: function() {
-    var activeReminders = Reminders.find({active: true}).fetch();
-    var emailIds = [];
-    for (var i = 0; i < activeReminders.length; i ++) {
-      emailIds.push(activeReminders[i].email);
-    }
-    var emails = Emails.find({'_id': {$in: emailIds}}).fetch();
+    var activeReminders = Reminders.find({executed: true}).fetch();
     for (var i = 0; i < activeReminders.length; i ++) {
       var reminder = activeReminders[i];
-      if (reminder.periodicity == Constants.PERIODICITY.DAILY) {
-        
-      }
-      if (reminder.periodicity == Constants.PERIODICITY.WEEKLY) {
-        
-      }
-      if (reminder.periodicity == Constants.PERIODICITY.MONTHLY) {
-        
+      if (moment(reminder.nextRun).isBefore(new Date())) {
+        if (reminder.periodicity == Constants.Periodicity.DAILY) {
+          reminder.nextRun = moment(reminder.nextRun).add(1, 'days').toDate();
+        }
+        if (reminder.periodicity == Constants.Periodicity.WEEKLY) {
+          reminder.nextRun = moment(reminder.nextRun).add(1, 'weeks').toDate();
+        }
+        if (reminder.periodicity == Constants.Periodicity.MONTHLY) {
+          reminder.nextRun = moment(reminder.nextRun).add(1, 'months').toDate();
+        }
+        reminder.executed = false;
+        Meteor.call('updateReminder', reminder);
       }
     }
   },
 
   sendReminderEmails: function() {
-    var activeReminders = Reminders.find({active: true, executed: false}).fetch();
+    var remindersToSend = Reminders.find({active: true, executed: false, nextRun: {$lt: new Date()}}).fetch();
+    for (var i = 0; i < remindersToSend.length; i ++) {
+      var reminder = remindersToSend[i];
+      var email = Emails.findOne({_id: reminder.email});
+      Meteor.call('sendEmail', reminder.to, Meteor.settings.fromEmail, email.subject, email.body );
+      reminder.executed = true;
+      Meteor.call('updateReminder', reminder);
+    }
   },
 
   sendEmail: function (to, from, subject, text) {
@@ -41,14 +47,16 @@ Meteor.methods({
   },
 
   addReminder: function(reminder) {
+    var startDateTime = moment(reminder.startDate + 'T' + reminder.startTime).toDate();
     Reminders.insert({
       active: reminder.active,
       name: reminder.name, 
       email: reminder.email, 
       to: reminder.to, 
-      startDateTime: moment(reminder.startDate + 'T' + reminder.startTime).toDate(), 
+      startDateTime: startDateTime, 
       periodicity: reminder.periodicity,
       executed: false,
+      nextRun: startDateTime
     });
   },
 
@@ -58,6 +66,19 @@ Meteor.methods({
 
   switchReminderActivity: function(reminderId, isActive) {
     Reminders.update(reminderId, {$set: {active: !isActive}});
+  },
+
+  updateReminder: function(reminder) {
+    Reminders.update({_id: reminder._id}, {
+      active: reminder.active,
+      name: reminder.name, 
+      email: reminder.email, 
+      to: reminder.to, 
+      startDateTime: reminder.startDateTime, 
+      periodicity: reminder.periodicity,
+      executed: reminder.executed,
+      nextRun: reminder.nextRun
+    });
   },
 
   addEmail: function(email) {
