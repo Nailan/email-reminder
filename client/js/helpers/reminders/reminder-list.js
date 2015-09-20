@@ -5,5 +5,9 @@ Template.reminderList.helpers({
 
 	emailLink: function(emailId) {
 		return Constants.Routes.EMAILS + '/' + emailId;
+	},
+
+	formatDateTime: function(dateTime) {
+		return moment(dateTime).format(Constants.DateTimeFormats.DATE_TIME);
 	}
 });

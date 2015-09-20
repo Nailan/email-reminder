@@ -19,9 +19,9 @@
             <a href="{{emailLink email.id}}">{{email.name}}</a>
           </td>
   				<td>{{to}}</td>
-  				<td>{{startDateTime}}</td>
+  				<td>{{formatDateTime startDateTime}}</td>
   				<td>{{periodicity}}</td>
-  				<td>{{nextRun}}</td>
+  				<td>{{formatDateTime nextRun}}</td>
   				<td> 
   					<button class="action-btn remove-btn"> Remove </button> 
   					<button class="action-btn disable-btn"> 
