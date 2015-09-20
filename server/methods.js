@@ -4,18 +4,18 @@ Meteor.methods({
     var activeReminders = Reminders.find({executed: true}).fetch();
     for (var i = 0; i < activeReminders.length; i ++) {
       var reminder = activeReminders[i];
+      var nextRun = reminder.nextRun;
       if (moment(reminder.nextRun).isBefore(new Date())) {
         if (reminder.periodicity == Constants.Periodicity.DAILY) {
-          reminder.nextRun = moment(reminder.nextRun).add(1, 'days').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'days').toDate();
         }
         if (reminder.periodicity == Constants.Periodicity.WEEKLY) {
-          reminder.nextRun = moment(reminder.nextRun).add(1, 'weeks').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'weeks').toDate();
         }
         if (reminder.periodicity == Constants.Periodicity.MONTHLY) {
-          reminder.nextRun = moment(reminder.nextRun).add(1, 'months').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'months').toDate();
         }
-        reminder.executed = false;
-        Meteor.call('updateReminder', reminder);
+        Meteor.call('updateReminderRunSettings', reminder._id, nextRun, false);
       }
     }
   },
@@ -26,8 +26,7 @@ Meteor.methods({
       var reminder = remindersToSend[i];
       var email = Emails.findOne({_id: reminder.email});
       Meteor.call('sendEmail', reminder.to, Meteor.settings.fromEmail, email.subject, email.body );
-      reminder.executed = true;
-      Meteor.call('updateReminder', reminder);
+      Meteor.call('updateReminderRunSettings', reminder._id, reminder.nextRun, true);
     }
   },
 
@@ -46,18 +45,26 @@ Meteor.methods({
     });
   },
 
-  addReminder: function(reminder) {
+  addOrUpdateReminder: function(reminder) {
     var startDateTime = moment(reminder.startDate + 'T' + reminder.startTime).toDate();
-    Reminders.insert({
-      active: reminder.active,
-      name: reminder.name, 
-      email: reminder.email, 
-      to: reminder.to, 
-      startDateTime: startDateTime, 
-      periodicity: reminder.periodicity,
-      executed: false,
-      nextRun: startDateTime
-    });
+    Reminders.update({
+      _id: reminder._id
+    },
+    { $set: {
+        active: reminder.active,
+        name: reminder.name, 
+        email: reminder.email, 
+        to: reminder.to, 
+        startDateTime: startDateTime, 
+        periodicity: reminder.periodicity,
+        executed: false,
+        nextRun: startDateTime
+      }
+    },
+    {
+      upsert: true
+    }
+    );
   },
 
   deleteReminder: function(reminderId) {
@@ -68,24 +75,27 @@ Meteor.methods({
     Reminders.update(reminderId, {$set: {active: !isActive}});
   },
 
-  updateReminder: function(reminder) {
-    Reminders.update({_id: reminder._id}, {
-      active: reminder.active,
-      name: reminder.name, 
-      email: reminder.email, 
-      to: reminder.to, 
-      startDateTime: reminder.startDateTime, 
-      periodicity: reminder.periodicity,
-      executed: reminder.executed,
-      nextRun: reminder.nextRun
+  updateReminderRunSettings: function(id, nextRun, executed) {
+    Reminders.update({_id: id}, {
+      $set: {
+        executed: executed,
+        nextRun: nextRun
+      }
     });
   },
 
-  addEmail: function(email) {
-    Emails.insert({
-      name: email.name,
-      subject: email.subject,
-      body: email.body
+  addOrUpdateEmail: function(email) {
+    Emails.update({
+      _id: email._id
+    },
+    { $set: {
+        name: email.name,
+        subject: email.subject,
+        body: email.body
+      }
+    },
+    {
+      upsert: true
     });
   },
 

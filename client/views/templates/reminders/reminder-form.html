@@ -1,0 +1,49 @@
+<template name="reminderForm">
+	<h1> Create / Edit Reminder </h1>
+
+	<form class="reminder-form">
+
+		<input type="hidden" name="id" value="{{reminder._id}}" class="reminder-form-input"/> 
+
+		<div class="reminder-form-item"> 
+			<label>Active</label> <input type="checkbox" name="active" checked={{reminder.active}} class="reminder-form-input"/> 
+		</div>
+
+		<div class="reminder-form-item"> 
+			<label>Name</label> <input type="text" name="name" value="{{reminder.name}}" required class="reminder-form-input"/> 
+		</div>
+
+		<div class="reminder-form-item"> 
+			<label>Email</label> 
+			<select name="email" required class="reminder-form-input">
+				{{#each emailOptions}}
+					<option value="{{value}}" selected="{{isSelectedEmail value reminder.email}}">
+						{{name}}
+					</option>
+				{{/each}} 
+			</select> 
+		</div>
+
+		<div class="reminder-form-item"> 
+			<label>To</label> <input type="email" name="to" value="{{reminder.to}}" required class="reminder-form-input"/> 
+		</div>
+
+		<div class="reminder-form-item"> 
+			<label>Start time</label> 
+			<input type="time" name="startTime" value="{{startTime reminder.startDateTime}}" required  class="reminder-form-input"/> 
+			<input type="date" name="startDate" value="{{startDate reminder.startDateTime}}" required class="reminder-form-input"/>
+		</div>
+
+		<div class="reminder-form-item"> 
+			<label>Periodicity</label> 
+			<select name="periodicity" required value="{{reminder.periodicity}}" class="reminder-form-input">
+				{{#each periodicityOptions}}
+					<option value="{{value}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</div>
+
+		<input type="submit" value="Save" class="reminder-save-btn"/>
+		
+	</form>
+</template>

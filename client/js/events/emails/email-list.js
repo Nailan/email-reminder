@@ -1,6 +1,6 @@
 Template.emailList.events({
   'click .add-email-btn': function () {
-    $('.new-email-form').show();
+    $('.email-form').show();
   },
 
   'click .remove-btn': function () {
