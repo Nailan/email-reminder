@@ -1,17 +1,22 @@
 <template name="emailForm">
 	<h1>Create / Edit Email</h1>
 
-	<form class="email-form" style="display: none">
+	<form class="email-form">
+
+		<input type="hidden" name="id" value="{{email._id}}"/>
 	
 		<div class="email-form-item"> 
-			<label>Name</label> <input type="text" name="name" required class="email-form-input"/> 
+			<label>Name</label> <input type="text" name="name" required value="{{email.name}}" class="email-form-input"/> 
 		</div>
+
 		<div class="email-form-item"> 
-			<label>Subject</label> <input type="text" name="subject" required class="email-form-input"/> 
+			<label>Subject</label> <input type="text" name="subject" required value="{{email.subject}}" class="email-form-input"/> 
 		</div>
+
 		<div class="email-form-item"> 
-			<label>Body</label> <input type="text" name="body" required class="email-form-input"/> 
+			<label>Body</label> <input type="text" name="body" required value="{{email.body}}" class="email-form-input"/> 
 		</div>
+
 		<input type="submit" value="Save" class="email-save-btn"/>
 
 	</form>
