@@ -3,7 +3,10 @@ Template.reminderForm.helpers({
 		var emails = Emails.find().fetch();
 		var options = [];
 		for (var i = 0; i < emails.length; i ++) {
-			options.push({name: emails[i].name, value: emails[i]._id});
+			options.push({
+				name: emails[i].name,
+				value: emails[i]._id + Constants.Util.SEPARATOR + emails[i].name
+			});
 		}
 		return options;
 	},

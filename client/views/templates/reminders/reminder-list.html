@@ -10,11 +10,14 @@
   		<th>Periodicy</th>
   		<th>Next Run</th>
   		<th>Actions</th>
+
   		{{#each reminders}}
   			<tr>
-  				<td> <input type="checkbox" checked={{active}} disabled="disabled" /></td>
+  				<td><input type="checkbox" checked={{active}} disabled="disabled" /></td>
   				<td>{{name}}</td>
-  				<td>{{email}}</td>
+  				<td>
+            <a href="{{emailLink email.id}}">{{email.name}}</a>
+          </td>
   				<td>{{to}}</td>
   				<td>{{startDateTime}}</td>
   				<td>{{periodicity}}</td>
@@ -28,6 +31,7 @@
   				</td>
   			</tr>
   		{{/each}}
+      
   	</table>
     
   	<button class="add-reminder-btn">Add Reminder</button>

@@ -24,7 +24,7 @@ Meteor.methods({
     var remindersToSend = Reminders.find({active: true, executed: false, nextRun: {$lt: new Date()}}).fetch();
     for (var i = 0; i < remindersToSend.length; i ++) {
       var reminder = remindersToSend[i];
-      var email = Emails.findOne({_id: reminder.email});
+      var email = Emails.findOne({_id: reminder.email.id});
       Meteor.call('sendEmail', reminder.to, Meteor.settings.fromEmail, email.subject, email.body );
       Meteor.call('updateReminderRunSettings', reminder._id, reminder.nextRun, true);
     }
@@ -53,7 +53,10 @@ Meteor.methods({
     { $set: {
         active: reminder.active,
         name: reminder.name, 
-        email: reminder.email, 
+        email: {
+          id: reminder.emailId,
+          name: reminder.emailName
+        },
         to: reminder.to, 
         startDateTime: startDateTime, 
         periodicity: reminder.periodicity,
