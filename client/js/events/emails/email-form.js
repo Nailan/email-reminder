@@ -17,3 +17,7 @@ Template.emailForm.events({
     return false;
   }
 });
+
+Template.emailForm.onRendered(function() {
+  $('#email-body').editable({inlineMode: false})
+});
