@@ -11,3 +11,5 @@ email
 iron:router
 momentjs:moment
 froala:editor
+accounts-ui
+accounts-password
