@@ -5,17 +5,22 @@
 
 		<input type="hidden" name="id" value="{{reminder._id}}" class="reminder-form-input"/> 
 
-		<div class="reminder-form-item"> 
-			<label>Active</label> <input type="checkbox" name="active" checked={{reminder.active}} class="reminder-form-input"/> 
+		<div class="form-group">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox"><input type="checkbox" name="active" checked={{reminder.active}}/>
+					Active
+				</label>
+			</div>
 		</div>
 
-		<div class="reminder-form-item"> 
-			<label>Name</label> <input type="text" name="name" value="{{reminder.name}}" required class="reminder-form-input"/> 
+		<div class="form-group"> 
+			<label>Name</label> <input type="text" name="name" value="{{reminder.name}}" required class="form-control"/> 
 		</div>
 
-		<div class="reminder-form-item"> 
+		<div class="form-group"> 
 			<label>Email</label> 
-			<select name="email" required class="reminder-form-input">
+			<select name="email" required class="form-control">
 				{{#each emailOptions}}
 					<option value="{{value}}" selected="{{isSelectedEmail value reminder.email}}">
 						{{name}}
@@ -24,26 +29,30 @@
 			</select> 
 		</div>
 
-		<div class="reminder-form-item"> 
-			<label>To</label> <input type="email" name="to" value="{{reminder.to}}" required class="reminder-form-input"/> 
+		<div class="form-group"> 
+			<label>To</label> <input type="email" name="to" value="{{reminder.to}}" required class="form-control"/> 
 		</div>
 
-		<div class="reminder-form-item"> 
+		<div class="form-group"> 
 			<label>Start time</label> 
-			<input type="time" name="startTime" value="{{startTime reminder.startDateTime}}" required  class="reminder-form-input"/> 
-			<input type="date" name="startDate" value="{{startDate reminder.startDateTime}}" required class="reminder-form-input"/>
+			<input type="time" name="startTime" value="{{startTime reminder.startDateTime}}" required  class="form-control"/>
+		</div>
+		
+		<div class="form-group">
+			<label>Start date</label>
+			<input type="date" name="startDate" value="{{startDate reminder.startDateTime}}" required class="form-control"/>
 		</div>
 
-		<div class="reminder-form-item"> 
+		<div class="form-group"> 
 			<label>Periodicity</label> 
-			<select name="periodicity" required value="{{reminder.periodicity}}" class="reminder-form-input">
+			<select name="periodicity" required value="{{reminder.periodicity}}" class="form-control">
 				{{#each periodicityOptions}}
 					<option value="{{value}}">{{name}}</option>
 				{{/each}}
 			</select>
 		</div>
 
-		<input type="submit" value="Save" class="reminder-save-btn"/>
+		<button class="btn reminder-save-btn btn-success"> Save </button>
 		
 	</form>
 </template>

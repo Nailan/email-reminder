@@ -1,19 +1,19 @@
 <template name="emailList">
   <h1>All Emails</h1>
 
-	<table class="emails-table">
+	<table class="table">
   		<th>Name</th>
   		<th>Actions</th>
   		{{#each emails}}
   			<tr>
   				<td>{{name}}</td>
   				<td> 
-  					<button class="action-btn remove-btn"> Remove </button>
-            <button class="action-btn edit-btn"> Edit </button> 
+  					<button class="btn remove-btn btn-link"> Remove </button>
+            <button class="btn edit-btn btn-link"> Edit </button> 
   				</td>
   			</tr>
   		{{/each}}
   	</table>
     
-  	<button class="add-email-btn">Add Email</button>
+  	<button class="btn add-email-btn btn-success">Add Email</button>
 </template>

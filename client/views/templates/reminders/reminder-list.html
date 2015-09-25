@@ -1,7 +1,7 @@
 <template name="reminderList">
   <h1> All Reminders </h1>
 
-	<table class="reminders-table">
+	<table class="table">
   		<th>Active</th>
   		<th>Name</th>
   		<th>Email</th>
@@ -23,16 +23,16 @@
   				<td>{{periodicity}}</td>
   				<td>{{formatDateTime nextRun}}</td>
   				<td> 
-  					<button class="action-btn remove-btn"> Remove </button> 
-  					<button class="action-btn disable-btn"> 
+  					<button class="btn remove-btn btn-link"> Remove </button> 
+  					<button class="btn disable-btn btn-link"> 
   						{{#if active}} Disable {{else}} Enable {{/if}} 
   					</button> 
-            <button class="action-btn edit-btn"> Edit </button> 
+            <button class="btn edit-btn btn-link"> Edit </button> 
   				</td>
   			</tr>
   		{{/each}}
       
   	</table>
     
-  	<button class="add-reminder-btn">Add Reminder</button>
+  	<button class="btn add-reminder-btn btn-success">Add Reminder</button>
 </template>

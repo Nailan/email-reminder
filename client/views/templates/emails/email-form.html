@@ -5,24 +5,24 @@
 
 		<input type="hidden" name="id" value="{{email._id}}"/>
 	
-		<div class="email-form-item"> 
+		<div class="form-group"> 
 			<label>Name</label> 
-			<input type="text" name="name" required value="{{email.name}}" class="email-form-input"/> 
+			<input type="text" name="name" required value="{{email.name}}" class="form-control"/> 
 		</div>
 
-		<div class="email-form-item"> 
+		<div class="form-group"> 
 			<label>Subject</label> 
-			<input type="text" name="subject" required value="{{email.subject}}" class="email-form-input"/> 
+			<input type="text" name="subject" required value="{{email.subject}}" class="form-control"/> 
 		</div>
 
-		<div class="email-form-item"> 
+		<div class="form-group"> 
 			<label>Body</label> 
-			<textarea id="email-body" name="body" required  class="email-form-input">
+			<textarea id="email-body" name="body" required  class="form-control">
 				{{email.body}}
 			</textarea> 
 		</div>
 
-		<input type="submit" value="Save" class="email-save-btn"/>
+		<button class="btn email-save-btn btn-success"> Save </button>
 
 	</form>
 </template>
