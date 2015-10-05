@@ -46,6 +46,7 @@ Meteor.methods({
   },
 
   addOrUpdateReminder: function(reminder) {
+    Util.checkRecordOwner(Reminders, reminder._id);
     var startDateTime = moment(reminder.startDate + 'T' + reminder.startTime).toDate();
     Reminders.update({
       _id: reminder._id
@@ -61,7 +62,8 @@ Meteor.methods({
         startDateTime: startDateTime, 
         periodicity: reminder.periodicity,
         executed: false,
-        nextRun: startDateTime
+        nextRun: startDateTime,
+        owner: this.userId
       }
     },
     {
@@ -71,10 +73,12 @@ Meteor.methods({
   },
 
   deleteReminder: function(reminderId) {
+    Util.checkRecordOwner(Reminders, reminderId);
     Reminders.remove(reminderId);
   },
 
   switchReminderActivity: function(reminderId, isActive) {
+    Util.checkRecordOwner(Reminders, reminderId);
     Reminders.update(reminderId, {$set: {active: !isActive}});
   },
 
