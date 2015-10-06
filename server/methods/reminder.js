@@ -25,7 +25,10 @@ Meteor.methods({
     for (var i = 0; i < remindersToSend.length; i ++) {
       var reminder = remindersToSend[i];
       var email = Emails.findOne({_id: reminder.email.id});
-      Meteor.call('sendEmail', reminder.to, Meteor.settings.fromEmail, email.subject, email.body );
+      console.log(Meteor.users);
+      var emailFrom = Meteor.users.findOne({_id: email.owner}).emails[0].address;
+      console.log(emailFrom);
+      Meteor.call('sendEmail', reminder.to, emailFrom, email.subject, email.body);
       Meteor.call('updateReminderRunSettings', reminder._id, reminder.nextRun, true);
     }
   },

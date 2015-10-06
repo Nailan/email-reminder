@@ -1,7 +1,5 @@
 Meteor.startup(function () {
 
-  process.env.MAIL_URL = Meteor.settings.gmailUrl;
-
   SyncedCron.add({
     name: 'Send email task',
     schedule: function(parser) {
