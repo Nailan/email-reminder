@@ -1,6 +1,6 @@
 Template.reminderForm.events({
   'submit': function (event) {
-    var active = event.target.active.value == "on";
+    var active = $(event.target.active).is(':checked');
     var name = event.target.name.value;
     var email = event.target.email.value;
     var emailId = email.split(Constants.Util.SEPARATOR)[0];
@@ -10,6 +10,7 @@ Template.reminderForm.events({
     var startDate = event.target.startDate.value;
     var periodicity = event.target.periodicity.value;
     var id = event.target.id.value;
+    var offset = new Date().getTimezoneOffset();
 
     Meteor.call('addOrUpdateReminder', {
       _id: id,
@@ -20,7 +21,8 @@ Template.reminderForm.events({
       to: to, 
       startTime: startTime, 
       startDate: startDate, 
-      periodicity: periodicity
+      periodicity: periodicity,
+      offset: offset
     });
     
     Router.go(Constants.Routes.ROOT);
