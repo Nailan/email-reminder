@@ -5,15 +5,15 @@ Meteor.methods({
     for (var i = 0; i < activeReminders.length; i ++) {
       var reminder = activeReminders[i];
       var nextRun = reminder.nextRun;
-      if (moment(reminder.nextRun).isBefore(new Date())) {
+      if (moment(reminder.nextRun).isBefore(moment.utc())) {
         if (reminder.periodicity == Constants.Periodicity.DAILY) {
-          nextRun = moment(reminder.nextRun).add(1, 'days').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'days').valueOf();
         }
         if (reminder.periodicity == Constants.Periodicity.WEEKLY) {
-          nextRun = moment(reminder.nextRun).add(1, 'weeks').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'weeks').valueOf();
         }
         if (reminder.periodicity == Constants.Periodicity.MONTHLY) {
-          nextRun = moment(reminder.nextRun).add(1, 'months').toDate();
+          nextRun = moment(reminder.nextRun).add(1, 'months').valueOf();
         }
         Meteor.call('updateReminderRunSettings', reminder._id, nextRun, false);
       }
@@ -21,13 +21,15 @@ Meteor.methods({
   },
 
   sendReminderEmails: function() {
-    var remindersToSend = Reminders.find({active: true, executed: false, nextRun: {$lt: new Date()}}).fetch();
+    var remindersToSend = Reminders.find({
+      active: true,
+      executed: false,
+      nextRun: {$lt: moment.utc().valueOf()}
+    }).fetch();
     for (var i = 0; i < remindersToSend.length; i ++) {
       var reminder = remindersToSend[i];
       var email = Emails.findOne({_id: reminder.email.id});
-      console.log(Meteor.users);
       var emailFrom = Meteor.users.findOne({_id: email.owner}).emails[0].address;
-      console.log(emailFrom);
       Meteor.call('sendEmail', reminder.to, emailFrom, email.subject, email.body);
       Meteor.call('updateReminderRunSettings', reminder._id, reminder.nextRun, true);
     }
