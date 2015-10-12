@@ -50,7 +50,8 @@ Meteor.methods({
 
   addOrUpdateReminder: function(reminder) {
     Util.checkRecordOwner(Reminders, reminder._id);
-    var startDateTime = moment(reminder.startDate + 'T' + reminder.startTime).toDate();
+    var startDateTime = moment.utc(reminder.startDate + 'T' + reminder.startTime)
+      .add(reminder.offset, 'minutes').valueOf();
     Reminders.update({
       _id: reminder._id
     },
